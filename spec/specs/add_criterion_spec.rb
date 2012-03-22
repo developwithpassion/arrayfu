@@ -32,7 +32,7 @@ module DevelopWithPassion
             @result = sut.apply_to(value)
           end
           it "should not use the failure strategy" do
-            failure_strategy.should never_receive(:run)
+            failure_strategy.should_not have_received(:run)
           end
           it "should return true" do
             @result.should be_true
