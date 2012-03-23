@@ -210,6 +210,7 @@ module DevelopWithPassion
           end
         end
 
+        
         context "when criterias have been specified on the array" do
           class BeGreaterThanZero
             def name
