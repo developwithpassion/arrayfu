@@ -1,5 +1,6 @@
 require 'fileutils'
-require 'developwithpassion_fakes-rspec'
+require 'fakes-rspec'
+require 'singleton'
 
 Dir.chdir(File.join(File.dirname(__FILE__),"..,lib".split(','))) do
   require 'arrayfu.rb'

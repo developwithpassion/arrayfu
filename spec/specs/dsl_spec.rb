@@ -251,15 +251,17 @@ module ArrayFu
 
           context "and the failure strategy is not set to raise an error" do
             class DisplayCriteriaFailure
+              include Singleton
+              attr_accessor :message
               def run(name,value)
-                puts "The value #{value} does not meet the criteria #{name}"
+                @message = "The value #{value} does not meet the criteria #{name}"
               end
             end
             class AnotherClass
               def initialize
                 array :items do|a|
                   a.mutator :add_item,:add_this,:add_that
-                  a.new_item_must BeGreaterThanZero.new, DisplayCriteriaFailure.new
+                  a.new_item_must BeGreaterThanZero.new, DisplayCriteriaFailure.instance
                 end
               end
             end
@@ -267,6 +269,10 @@ module ArrayFu
             before (:each) do
               target.add_item(0)
             end
+            it "should have leveraged the failure strategy that does not throw an exception" do
+              DisplayCriteriaFailure.instance.message.should_not be_nil
+            end
+            
             it "should not add the item to the underlying list" do
               target.items.count.should == 0
             end
