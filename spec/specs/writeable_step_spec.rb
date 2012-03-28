@@ -1,28 +1,26 @@
 require 'spec_helper'
 
-module DevelopWithPassion
-  module Arrays
-    describe WriteableStep do
-      context "when run" do
-        context "using a dsl fragment that contains no block usage" do
-          let(:target){Sample.new}
-          let(:mutators){[]}
-          let(:sut){WriteableStep.new}
-          let(:builder){Dsl.new(:numbers)}
-          before (:each) do
-            builder.writable
+module ArrayFu
+  describe WriteableStep do
+    context "when run" do
+      context "using a dsl fragment that contains no block usage" do
+        let(:target){Sample.new}
+        let(:mutators){[]}
+        let(:sut){WriteableStep.new}
+        let(:builder){Dsl.new(:numbers)}
+        before (:each) do
+          builder.writable
+        end
+        before (:each) do
+          target.extend(sut.run_using(builder))
+        end
+        it "should create a member on the target that allows assignment to the array" do
+          new_array = [1]
+          target.numbers = new_array
+          def target.numbers
+            return @numbers
           end
-          before (:each) do
-            target.extend(sut.run_using(builder))
-          end
-          it "should create a member on the target that allows assignment to the array" do
-            new_array = [1]
-            target.numbers = new_array
-            def target.numbers
-              return @numbers
-            end
-            target.numbers.should == new_array
-          end
+          target.numbers.should == new_array
         end
       end
     end
