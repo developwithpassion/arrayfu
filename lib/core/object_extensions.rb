@@ -19,9 +19,9 @@ class Object
 
   def array(name,&block)
     initialize_arrays(name)
-    dsl = DevelopWithPassion::Arrays::Dsl.new(name)
+    dsl = ArrayFu::Dsl.new(name)
     yield dsl if block_given?
-    DevelopWithPassion::Arrays::ModuleRegistry.all_modules.each{|module_factory| self.extend(module_factory.run_using(dsl))}
+    ArrayFu::ModuleRegistry.all_modules.each{|module_factory| self.extend(module_factory.run_using(dsl))}
   end
 
 end
