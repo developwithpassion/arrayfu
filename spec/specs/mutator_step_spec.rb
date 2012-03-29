@@ -14,7 +14,7 @@ module ArrayFu
           builder.mutator(:add_a_number)
         end
         before (:each) do
-          target.extend(sut.run_using(builder))
+          target.extend(sut.create_using(builder))
         end
         it "should create a member on the target that allows mutation of the original list" do
           target.respond_to?(:add_a_number).should be_true
@@ -29,7 +29,7 @@ module ArrayFu
           end
         end
         before (:each) do
-          target.extend(sut.run_using(builder))
+          target.extend(sut.create_using(builder))
         end
         it "should create a member on the target that intercepts mutation using the provided block" do
           target.respond_to?(:add_a_number).should be_true

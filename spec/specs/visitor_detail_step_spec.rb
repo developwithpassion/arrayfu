@@ -33,7 +33,7 @@ module ArrayFu
           builder.process_using(:run,:hello)
         end
         before (:each) do
-          target.extend(sut.run_using(builder))
+          target.extend(sut.create_using(builder))
         end
 
         it "should create a method on the target that triggers each item in the list using its provided action" do
@@ -63,7 +63,7 @@ module ArrayFu
           builder.process_using(:run,visitor)
         end
         before (:each) do
-          target.extend(sut.run_using(builder))
+          target.extend(sut.create_using(builder))
         end
 
         it "should create a method on the target that triggers the visitor once for each item in the list" do

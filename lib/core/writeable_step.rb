@@ -1,6 +1,6 @@
 module ArrayFu
   class WriteableStep
-    def run_using(builder)
+    def create_using(builder)
       Module.new do
         if (builder.writable)
           define_method("#{builder.name}=") do|value|

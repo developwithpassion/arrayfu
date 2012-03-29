@@ -21,7 +21,7 @@ class Object
     initialize_arrays(name)
     dsl = ArrayFu::Dsl.new(name)
     yield dsl if block_given?
-    ArrayFu::ModuleRegistry.all_modules.each{|module_factory| self.extend(module_factory.run_using(dsl))}
+    ArrayFu::ModuleRegistry.configure(self,dsl)
   end
 
 end

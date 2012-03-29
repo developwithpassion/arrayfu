@@ -12,7 +12,7 @@ module ArrayFu
           builder.writable
         end
         before (:each) do
-          target.extend(sut.run_using(builder))
+          target.extend(sut.create_using(builder))
         end
         it "should create a member on the target that allows assignment to the array" do
           new_array = [1]

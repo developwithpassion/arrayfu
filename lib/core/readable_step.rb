@@ -1,6 +1,6 @@
 module ArrayFu
   class ReadableStep
-    def run_using(builder)
+    def create_using(builder)
       Module.new do
         if (builder.readable)
           define_method(builder.name) do

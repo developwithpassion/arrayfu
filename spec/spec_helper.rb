@@ -9,6 +9,7 @@ Dir.chdir(File.join(File.dirname(__FILE__),"..,lib".split(','))) do
   require 'arrayfu.rb'
 end
 
+
 def catch_exception
   begin
     yield

@@ -1,6 +1,6 @@
 module ArrayFu
   class MutatorStep
-    def run_using(builder)
+    def create_using(builder)
       Module.new do
         builder.mutators.each do|mutator|
           define_method(mutator.name) do|value|

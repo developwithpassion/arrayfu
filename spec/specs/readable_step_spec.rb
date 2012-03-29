@@ -13,7 +13,7 @@ module ArrayFu
           builder.readable
         end
         before (:each) do
-          target.extend(sut.run_using(builder))
+          target.extend(sut.create_using(builder))
         end
         it "should create a member on the target that allows reading of the array" do
           target.numbers.should be_a(Array)

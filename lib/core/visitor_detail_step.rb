@@ -1,6 +1,6 @@
 module ArrayFu
   class VisitorDetailStep
-    def run_using(builder)
+    def create_using(builder)
       Module.new do
         builder.visitors.each do|visitor|
           define_method(visitor.name) do

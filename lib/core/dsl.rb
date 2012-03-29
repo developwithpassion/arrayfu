@@ -32,5 +32,12 @@ module ArrayFu
     def readable
       @readable = true
     end
+
+    def configure_using(*configurators)
+      configurators.each do|configurator|
+        method = configurator.respond_to?(:configure) ? :configure : 'call'.to_sym
+        configurator.send(method,self)
+      end
+    end
   end
 end

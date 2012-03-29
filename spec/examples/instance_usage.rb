@@ -241,3 +241,49 @@ example 'Add an method based processing visitor to the array based on a method t
   items.display_all
   SomeClass.number_of_items_visited.should == 10
 end
+
+example 'Augment configuration using configuration block' do
+  class ArrayConfigs
+    def self.add_another_mutator
+      return lambda{|item| item.mutator :another_push}
+    end
+  end
+
+  class SomeClass
+
+    def initialize
+      array :names do|a|
+        a.mutator :add_item
+        a.configure_using ArrayConfigs.add_another_mutator
+      end
+    end
+  end
+
+  items = SomeClass.new
+  items.add_item("Yo")
+  items.another_push("Yo")
+  items.names.count.should == 2
+end
+
+example 'Augment configuration using configuration instance' do
+  class ArrayConfigs
+    def configure(item)
+      item.mutator :once_more
+    end
+  end
+
+  class SomeClass
+
+    def initialize
+      array :names do|a|
+        a.mutator :add_item
+        a.configure_using ArrayConfigs.new
+      end
+    end
+  end
+
+  items = SomeClass.new
+  items.add_item("Yo")
+  items.once_more("Yo")
+  items.names.count.should == 2
+end
