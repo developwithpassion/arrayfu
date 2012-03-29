@@ -1,6 +1,9 @@
 require 'fileutils'
 require 'fakes-rspec'
 require 'singleton'
+require 'rspec'
+
+include RSpec::Matchers
 
 Dir.chdir(File.join(File.dirname(__FILE__),"..,lib".split(','))) do
   require 'arrayfu.rb'
@@ -15,3 +18,10 @@ def catch_exception
   exception
 end
 
+def example name,&block
+  describe "Example:" do
+    it name do
+      yield
+    end
+  end
+end
