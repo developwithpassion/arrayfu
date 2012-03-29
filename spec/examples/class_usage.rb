@@ -5,7 +5,7 @@ example "Basic" do
     array :names
   end
 
-  SomeClass.names.should_not be_nil #the only reason we can see names here is because of where the class is defined
+  SomeClass.names.should_not be_nil
 end
 
 example 'Allow the array to have a read accessor' do
