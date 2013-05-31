@@ -5,11 +5,14 @@ module ArrayFu
     context "using the dsl" do
       it "should be able to initialize all arrays specified on the instance and provide a method to expose addition" do
         class Item
+          include ArrayFu
+
+          array :kids do|a|
+            a.mutator :register_child 
+          end
 
           def initialize
-            array :kids do|a|
-              a.mutator :register_child 
-            end
+            initialize_custom_arrays
           end
         end
 
@@ -20,18 +23,20 @@ module ArrayFu
       end
       it "should be able to expose a mutator with custom logic" do
         class Item
+          include ArrayFu
           attr_accessor :added,:item_added
+
+          array :kids do|a|
+            a.mutator :register_child do|the_item|
+              @item_added = the_item
+              @added +=1
+              @kids.push(the_item)
+            end
+          end
 
           def initialize
             @added = 0
-
-            array :kids do|a|
-              a.mutator :register_child do|the_item|
-                @item_added = the_item
-                @added +=1
-                @kids.push(the_item)
-              end
-            end
+            initialize_custom_arrays
           end
         end
 
@@ -43,20 +48,11 @@ module ArrayFu
       end
 
       it "should be able to expose a processing visitor" do
-        class Item
-          attr_accessor :added
-
-          def initialize(visitor)
-            @added = 0
-            array :kids do|a|
-              a.mutator :register_child
-              a.process_using :register_kids,visitor
-            end
-          end
-        end
-
         class OurVisitor
+          include Singleton
+
           attr_accessor :items
+
           def initialize
             @items = 0
           end
@@ -65,24 +61,42 @@ module ArrayFu
           end
         end
 
-        our_visitor = OurVisitor.new
-        item = Item.new(our_visitor)
+        class Item
+          include ArrayFu
+          attr_accessor :added
+
+          array :kids do|a|
+            a.mutator :register_child
+            a.process_using :register_kids, OurVisitor.instance
+          end
+
+          def initialize
+            @added = 0
+            initialize_custom_arrays
+          end
+        end
+
+
+        item = Item.new
         item.register_child("hello")
         item.kids.count.should == 1
         item.register_kids
-        our_visitor.items.should == 1
+        OurVisitor.instance.items.should == 1
       end
 
       it "should be able to expose a processing visitor by symbol" do
         class Item
+          include ArrayFu
           attr_accessor :added
+
+          array :kids do|a|
+            a.mutator :register_child
+            a.process_using :register_kids,:speak
+          end
 
           def initialize
             @added = 0
-            array :kids do|a|
-              a.mutator :register_child
-              a.process_using :register_kids,:speak
-            end
+            initialize_custom_arrays
           end
         end
 
@@ -108,11 +122,14 @@ module ArrayFu
       context "and no block is provided" do
         it "should expose the specified method to trigger addition" do
           class Item
+            include ArrayFu
+
+            array :kids do|a|
+              a.mutator :register_child
+            end
 
             def initialize
-              array :kids do|a|
-                a.mutator :register_child
-              end
+              initialize_custom_arrays
             end
           end
 
@@ -126,17 +143,19 @@ module ArrayFu
       context "and a block is provided" do
         it "should provide a method that delegates to the block when invoked" do
           class Item
+            include ArrayFu
             attr_accessor :added
+
+            array :kids do|a|
+              a.mutator :register_child do|item|
+                @kids.push(item)
+                @added+=1
+              end
+            end
 
             def initialize
               @added = 0
-
-              array :kids do|a|
-                a.mutator :register_child do|item|
-                  @kids.push(item)
-                  @added+=1
-                end
-              end
+              initialize_custom_arrays
             end
           end
 
@@ -165,11 +184,15 @@ module ArrayFu
               end
             end
             class OneClass
+              include ArrayFu
+
+              array :items do|a|
+                a.mutator :add_item,:add_this,:add_that
+                a.new_item_must BeGreaterThanZero.new, RaiseCriteriaFailure.new
+              end
+
               def initialize
-                array :items do|a|
-                  a.mutator :add_item,:add_this,:add_that
-                  a.new_item_must BeGreaterThanZero.new, RaiseCriteriaFailure.new
-                end
+                initialize_custom_arrays
               end
             end
             let(:target){OneClass.new}
@@ -196,11 +219,15 @@ module ArrayFu
               end
             end
             class AnotherClass
+              include ArrayFu
+
+              array :items do|a|
+                a.mutator :add_item,:add_this,:add_that
+                a.new_item_must BeGreaterThanZero.new, DisplayCriteriaFailure.instance
+              end
+
               def initialize
-                array :items do|a|
-                  a.mutator :add_item,:add_this,:add_that
-                  a.new_item_must BeGreaterThanZero.new, DisplayCriteriaFailure.instance
-                end
+                initialize_custom_arrays
               end
             end
             let(:target){AnotherClass.new}

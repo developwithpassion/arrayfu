@@ -1,9 +1,10 @@
 require 'spec_helper'
 
-describe Object do
+describe ArrayFu::Initializer do
   context "when initializing fields with defaults" do
     it "should initialize based on the factory provided" do
       class Item
+        include ArrayFu::Initializer
         attr_accessor :kids,:cars,:name
 
         def initialize
@@ -21,6 +22,7 @@ describe Object do
   context "when initializing simple arrays" do
     it "should initialize all arrays specified on the instance" do
       class Item
+        include ArrayFu::Initializer
         attr_accessor :kids,:cars,:bikes
 
         def initialize
@@ -38,6 +40,7 @@ describe Object do
   context "when initializing hashes" do
     it "should initialize all hashes specified" do
       class Item
+        include ArrayFu::Initializer
         attr_accessor :kids,:cars,:bikes
 
         def initialize
