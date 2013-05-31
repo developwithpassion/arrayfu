@@ -206,7 +206,7 @@ example 'Add multiple constraints and a failure condition to each of the mutator
     extend self
 
     def run(description,value)
-
+      puts "Criteria violated #{description} - #{value}"
     end
   end
 
