@@ -26,7 +26,7 @@ module ArrayFu
         let(:target){OurSet.new}
         let(:mutators){[]}
         let(:invocations){[]}
-        let(:sut){VisitorDetailStep.new}
+        let(:sut){VisitorDetailStep}
         let(:builder){Dsl.new(:items)}
         before (:each) do
           (1..10).each{|item| target.add(Speak.new(invocations))}
@@ -55,7 +55,7 @@ module ArrayFu
         let(:visitor){TheVisitor.new}
         let(:mutators){[]}
         let(:invocations){[]}
-        let(:sut){VisitorDetailStep.new}
+        let(:sut){VisitorDetailStep}
         let(:builder){Dsl.new(:items)}
 
         before (:each) do

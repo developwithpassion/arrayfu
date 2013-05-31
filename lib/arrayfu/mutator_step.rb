@@ -1,15 +1,25 @@
 module ArrayFu
-  class MutatorStep
+  module MutatorStep
+    extend self
+
     def create_using(builder)
       Module.new do
         builder.mutators.each do|mutator|
           define_method(mutator.name) do|value|
-            array_var = instance_variable_get("@#{builder.name}")
+            array_var = instance_variable_get(builder.variable_name)
             continue_add = true
-            builder.criteria.each{|criteria| continue_add &= criteria.apply_to(value)}
+
+            builder.criteria.each do |criteria| 
+              continue_add &= criteria.apply_to(value)
+            end
+
             return unless continue_add
-            array_var.push(value) unless mutator.block
-            mutator.block.call(value) if mutator.block
+
+            unless mutator.block.nil?
+              self.instance_exec value, &mutator.block
+            else
+              array_var.push(value)
+            end
           end
         end
       end

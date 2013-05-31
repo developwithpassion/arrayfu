@@ -2,20 +2,26 @@ require 'spec_helper'
 
 example "Basic" do
   class SomeClass
+    include ArrayFu
+
+    array :names
+
     def initialize
-      array :names
+      initialize_custom_arrays
     end
   end
-
-  SomeClass.new.names.should_not be_nil 
 end
 
 example 'Allow the array to have a read accessor' do
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.readable
+    end
+
     def initialize
-      array :names do|a|
-        a.readable
-      end
+      initialize_custom_arrays
     end
   end
   SomeClass.new.names.should_not be_nil
@@ -23,10 +29,14 @@ end
 
 example 'Allow the array to have a write accessor' do
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.writable
+    end
+
     def initialize
-      array :names do|a|
-        a.writable
-      end
+      initialize_custom_arrays
     end
   end
   SomeClass.new.names.should_not be_nil
@@ -34,10 +44,13 @@ end
 
 example 'Allow the array to have a read and write accessor' do
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.read_and_write
+    end
     def initialize
-      array :names do|a|
-        a.read_and_write
-      end
+      initialize_custom_arrays
     end
   end
   SomeClass.new.names.should_not be_nil
@@ -45,10 +58,14 @@ end
 
 example 'Add a mutator method to the class that stores the array' do
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item
+    end
+
     def initialize
-      array :names do|a|
-        a.mutator :add_item
-      end
+      initialize_custom_arrays
     end
   end
 
@@ -59,10 +76,14 @@ end
 
 example 'Add multiple mutators to the class that stores the array' do
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item,:add_it,:push_it
+    end
+
     def initialize
-      array :names do|a|
-        a.mutator :add_item,:add_it,:push_it
-      end
+      initialize_custom_arrays
     end
   end
 
@@ -75,11 +96,15 @@ end
 
 example 'Add a mutator that ignores addition' do
   class SomeClass
-    def initialize
-      array :names do|a|
-        a.mutator :add_item do|item|
-        end
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item do|item|
       end
+    end
+
+    def initialize
+      initialize_custom_arrays
     end
   end
 
@@ -90,14 +115,20 @@ end
 
 example 'Add a mutator that does other custom logic as well as addition' do
   class SomeClass
-    def initialize
-      array :secondary
-      array :names do|a|
-        a.mutator :add_item do|item|
-          @secondary.push item
-          @names.push item
-        end
+    include ArrayFu
+
+    array :secondary
+
+    array :names do|a|
+      a.readable
+      a.mutator :add_item do|item|
+        @secondary.push item
+        @names.push item
       end
+    end
+
+    def initialize
+      initialize_custom_arrays
     end
   end
 
@@ -125,11 +156,15 @@ example 'Add a singular constraint and failure condition to each of the mutators
   end
 
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item,:add_it
+      a.new_item_must NotBeJP.instance, CriteriaViolation.instance
+    end
+
     def initialize
-      array :names do|a|
-        a.mutator :add_item,:add_it
-        a.new_item_must NotBeJP.instance,CriteriaViolation.instance
-      end
+      initialize_custom_arrays
     end
   end
 
@@ -166,12 +201,16 @@ example 'Add multiple constraints and a failure condition to each of the mutator
   end
 
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item,:add_it
+      a.new_item_must NotBeJP.instance,CriteriaViolation.instance
+      a.new_item_must NotBeNil.instance,CriteriaViolation.instance
+    end
+
     def initialize
-      array :names do|a|
-        a.mutator :add_item,:add_it
-        a.new_item_must NotBeJP.instance,CriteriaViolation.instance
-        a.new_item_must NotBeNil.instance,CriteriaViolation.instance
-      end
+      initialize_custom_arrays
     end
   end
 
@@ -196,11 +235,15 @@ example 'Add an explicit processing visitor to the array' do
   end
 
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item
+      a.process_using :display_all,DisplayItem
+    end
+
     def initialize
-      array :names do|a|
-        a.mutator :add_item
-        a.process_using :display_all,DisplayItem
-      end
+      initialize_custom_arrays
     end
   end
 
@@ -219,12 +262,15 @@ example 'Add an method based processing visitor to the array based on a method t
 
   class SomeClass
     @@items_visited = 0
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item
+      a.process_using :display_all,:process #the second symbol is the name of a method on an element in the array
+    end
 
     def initialize
-      array :names do|a|
-        a.mutator :add_item
-        a.process_using :display_all,:process #the second symbol is the name of a method on an element in the array
-      end
+      initialize_custom_arrays
     end
 
     #the process method of the Item class invokes this method (a little bit roundabout, but it hopefully demonstrates the capability
@@ -250,12 +296,15 @@ example 'Augment configuration using configuration block' do
   end
 
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item
+      a.configure_using ArrayConfigs.add_another_mutator
+    end
 
     def initialize
-      array :names do|a|
-        a.mutator :add_item
-        a.configure_using ArrayConfigs.add_another_mutator
-      end
+      initialize_custom_arrays
     end
   end
 
@@ -273,12 +322,15 @@ example 'Augment configuration using configuration instance' do
   end
 
   class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item
+      a.configure_using ArrayConfigs.new
+    end
 
     def initialize
-      array :names do|a|
-        a.mutator :add_item
-        a.configure_using ArrayConfigs.new
-      end
+      initialize_custom_arrays
     end
   end
 

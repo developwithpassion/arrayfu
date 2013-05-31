@@ -6,7 +6,7 @@ module ArrayFu
       context "using a dsl fragment that contains no block usage" do
         let(:target){Sample.new}
         let(:mutators){[]}
-        let(:sut){WriteableStep.new}
+        let(:sut){WriteableStep}
         let(:builder){Dsl.new(:numbers)}
         before (:each) do
           builder.writable

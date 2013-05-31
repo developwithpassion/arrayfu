@@ -1,8 +1,9 @@
 module ArrayFu
   class VisitorDetail
-    attr_accessor :name,:visitor
+    attr_accessor :name
+    attr_accessor :visitor
 
-    def initialize(name,visitor)
+    def initialize(name, visitor)
       @name = name
       @visitor = visitor
     end

@@ -5,7 +5,7 @@ module ArrayFu
     context "when run" do
       let(:target){Sample.new}
       let(:mutators){[]}
-      let(:sut){ReadableStep.new}
+      let(:sut){ReadableStep}
       let(:builder){Dsl.new(:numbers)}
 
       context "using a dsl fragment that contains no block usage" do

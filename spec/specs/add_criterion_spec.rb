@@ -18,7 +18,7 @@ module ArrayFu
           sut.apply_to(value)
         end
         it "should run the failure strategy with the correct information" do
-          failure_strategy.should have_received(:run,name,value)
+          failure_strategy.should have_received(:run, name, value)
         end
       end
 

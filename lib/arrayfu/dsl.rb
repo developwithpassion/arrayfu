@@ -1,23 +1,33 @@
 module ArrayFu
   class Dsl
-    attr_accessor :mutators,:visitors,:criteria,:name,:writable,:readable
+    include Initializer
+
+    attr_accessor :mutators
+    attr_accessor :visitors 
+    attr_accessor :criteria
+    attr_accessor :name
+    attr_accessor :writable
+    attr_accessor :readable
 
     def initialize(name)
       @name = name
-      initialize_arrays :mutators,:visitors,:criteria
-      initialize_false :writable,:readable
+      initialize_arrays :mutators, :visitors, :criteria
+      initialize_false :writable, :readable
     end
 
-    def mutator(*names,&block)
-      names.each{|name| @mutators.push(MutatorDetail.new(name,block))}
+    def mutator(*names, &block)
+      names.each do |mutator_name| 
+        self.mutators.push(MutatorDetail.new(mutator_name, block))
+      end
     end
 
-    def new_item_must(criteria,fail_option)
-      @criteria.push(AddCriterion.new(criteria,fail_option))
+    def new_item_meets_constraint(criteria,fail_option)
+      self.criteria.push(AddCriterion.new(criteria, fail_option))
     end
+    alias :new_item_must :new_item_meets_constraint
 
     def process_using(name,visitor)
-      @visitors.push(VisitorDetail.new(name,visitor))
+      self.visitors.push(VisitorDetail.new(name, visitor))
     end
 
     def read_and_write
@@ -36,8 +46,12 @@ module ArrayFu
     def configure_using(*configurators)
       configurators.each do|configurator|
         method = configurator.respond_to?(:configure) ? :configure : 'call'.to_sym
-        configurator.send(method,self)
+        configurator.send(method, self)
       end
+    end
+
+    def variable_name
+      "@#{@name}"
     end
   end
 end
