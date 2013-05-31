@@ -13,8 +13,8 @@ example 'Allow the array to have a read accessor' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.readable
+    array :names do
+      readable
     end
 
     def initialize
@@ -29,8 +29,8 @@ example 'Allow the array to have a write accessor' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.writable
+    array :names do
+      writable
     end
 
     def initialize
@@ -44,8 +44,8 @@ example 'Allow the array to have a read and write accessor' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.read_and_write
+    array :names do
+      read_and_write
     end
 
     def initialize
@@ -59,8 +59,8 @@ example 'Add a mutator method to the class that stores the array' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item
+    array :names do
+      mutator :add_item
     end
     def initialize
       initialize_arrayfu
@@ -76,8 +76,8 @@ example 'Add multiple mutators to the class that stores the array' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item, :add_it, :push_it
+    array :names do
+      mutator :add_item, :add_it, :push_it
     end
     def initialize
       initialize_arrayfu
@@ -96,8 +96,8 @@ example 'Add a mutator that ignores addition' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item do|item|
+    array :names do
+      mutator :add_item do|item|
       end
     end
     def initialize
@@ -115,13 +115,13 @@ example 'Add a mutator that does other custom logic as well as addition' do
   class SomeClass
     include ArrayFu
 
-    array :secondary do |a|
-      a.readable
+    array :secondary do 
+      readable
     end
 
-    array :names do|a|
-      a.readable
-      a.mutator :add_item do|item|
+    array :names do
+      readable
+      mutator :add_item do|item|
         @secondary.push item
         @names.push item
       end
@@ -162,9 +162,9 @@ example 'Add a singular constraint and failure condition to each of the mutators
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item,:add_it
-      a.new_item_must NotBeJP, CriteriaViolation
+    array :names do
+      mutator :add_item,:add_it
+      new_item_must NotBeJP, CriteriaViolation
     end
 
     def initialize
@@ -214,10 +214,10 @@ example 'Add multiple constraints and a failure condition to each of the mutator
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item,:add_it
-      a.addition_constraint NotBeJP
-      a.addition_constraint NotBeNil, CriteriaViolation
+    array :names do
+      mutator :add_item,:add_it
+      addition_constraint NotBeJP
+      addition_constraint NotBeNil, CriteriaViolation
     end
 
     def initialize
@@ -248,9 +248,9 @@ example 'Add an explicit processing visitor to the array' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item
-      a.process_using :display_all,DisplayItem
+    array :names do
+      mutator :add_item
+      process_using :display_all,DisplayItem
     end
     def initialize
       initialize_arrayfu
@@ -275,9 +275,9 @@ example 'Add an method based processing visitor to the array based on a method t
     @@items_visited = 0
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item
-      a.process_using :display_all, :process #the second symbol is the name of a method on an element in the array
+    array :names do
+      mutator :add_item
+      process_using :display_all, :process #the second symbol is the name of a method on an element in the array
     end
 
 
@@ -309,9 +309,9 @@ example 'Augment configuration using configuration block' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item
-      a.configure_using ArrayConfigs.add_another_mutator
+    array :names do
+      mutator :add_item
+      configure_using ArrayConfigs.add_another_mutator
     end
 
     def initialize
@@ -338,9 +338,9 @@ example 'Augment configuration using configuration instance (anything that respo
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item
-      a.configure_using ArrayConfiguration
+    array :names do
+      mutator :add_item
+      configure_using ArrayConfiguration
     end
 
     def initialize
@@ -369,9 +369,9 @@ example 'Augment configuration using configuration block' do
   class SomeClass
     include ArrayFu
 
-    array :names do|a|
-      a.mutator :add_item
-      a.configure_using ArrayConfiguration.configuration_block
+    array :names do
+      mutator :add_item
+      configure_using ArrayConfiguration.configuration_block
     end
     def initialize
       initialize_arrayfu

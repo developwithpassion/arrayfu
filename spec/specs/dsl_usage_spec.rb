@@ -7,9 +7,9 @@ module ArrayFu
         class Item
           include ArrayFu
 
-          array :kids do|a|
-            a.readable
-            a.mutator :register_child 
+          array :kids do
+            readable
+            mutator :register_child 
           end
 
           def initialize
@@ -27,9 +27,9 @@ module ArrayFu
           include ArrayFu
           attr_accessor :added,:item_added
 
-          array :kids do|a|
-            a.readable
-            a.mutator :register_child do|the_item|
+          array :kids do
+            readable
+            mutator :register_child do|the_item|
               @item_added = the_item
               @added +=1
               @kids.push(the_item)
@@ -67,9 +67,9 @@ module ArrayFu
           include ArrayFu
           attr_accessor :added
 
-          array :kids do|a|
-            a.mutator :register_child
-            a.process_using :register_kids, OurVisitor.instance
+          array :kids do
+            mutator :register_child
+            process_using :register_kids, OurVisitor.instance
           end
 
           def initialize
@@ -91,9 +91,9 @@ module ArrayFu
           include ArrayFu
           attr_accessor :added
 
-          array :kids do|a|
-            a.mutator :register_child
-            a.process_using :register_kids,:speak
+          array :kids do
+            mutator :register_child
+            process_using :register_kids,:speak
           end
 
           def initialize
@@ -126,9 +126,9 @@ module ArrayFu
           class Item
             include ArrayFu
 
-            array :kids do|a|
-              a.readable
-              a.mutator :register_child
+            array :kids do
+              readable
+              mutator :register_child
             end
 
             def initialize
@@ -149,8 +149,8 @@ module ArrayFu
             include ArrayFu
             attr_accessor :added
 
-            array :kids do|a|
-              a.mutator :register_child do|item|
+            array :kids do
+              mutator :register_child do|item|
                 @kids.push(item)
                 @added+=1
               end
@@ -191,10 +191,10 @@ module ArrayFu
             class OneClass
               include ArrayFu
 
-              array :items do|a|
-                a.readable
-                a.mutator :add_item,:add_this,:add_that
-                a.new_item_must BeGreaterThanZero, RaiseCriteriaFailure
+              array :items do
+                readable
+                mutator :add_item,:add_this,:add_that
+                new_item_must BeGreaterThanZero, RaiseCriteriaFailure
               end
 
               def initialize
@@ -227,10 +227,10 @@ module ArrayFu
             class AnotherClass
               include ArrayFu
 
-              array :items do|a|
-                a.readable
-                a.mutator :add_item,:add_this,:add_that
-                a.new_item_must BeGreaterThanZero, DisplayCriteriaFailure.instance
+              array :items do
+                readable
+                mutator :add_item,:add_this,:add_that
+                new_item_must BeGreaterThanZero, DisplayCriteriaFailure.instance
               end
 
               def initialize

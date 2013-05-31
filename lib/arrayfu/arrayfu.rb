@@ -12,20 +12,27 @@ module ArrayFu
     end
   end
 
+  def array(name, &block)
+    self.class.array(name, &block)
+  end
+
   module ClassMethods
     def array_definitions
-      @array_definitions ||= []
+      @array_definitions ||= {}
     end
 
     def each_array_definition(&block)
-      array_definitions.each &block
+      array_definitions.values.each &block
     end
 
     def array(name, &block)
-      array_definition = ArrayDefinition.new(name)
-      yield array_definition if block_given?
-      array_definitions << array_definition
-      array_definition
+      unless array_definitions.has_key?(name)
+        array_definition = ArrayDefinition.new(name)
+        array_definitions[name] = array_definition
+      end
+      definition = array_definitions[name]
+      definition.instance_eval(&block) if block_given?
+      definition
     end
   end
 end
