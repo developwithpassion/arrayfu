@@ -47,6 +47,7 @@ example 'Allow the array to have a read and write accessor' do
     array :names do|a|
       a.read_and_write
     end
+
     def initialize
       initialize_arrayfu
     end
@@ -206,7 +207,7 @@ example 'Add multiple constraints and a failure condition to each of the mutator
     extend self
 
     def run(description,value)
-      puts "Criteria violated #{description} - #{value}"
+      # puts "Criteria violated - #{description} - #{value}"
     end
   end
 
