@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 module ArrayFu
-  describe WriteableStep do
+  describe GenerateWriters do
     context "when run" do
       context "using a dsl fragment that contains no block usage" do
         let(:target){Sample.new}
         let(:mutators){[]}
-        let(:sut){WriteableStep}
-        let(:builder){Dsl.new(:numbers)}
+        let(:sut){GenerateWriters}
+        let(:builder){ArrayDefinition.new(:numbers)}
         before (:each) do
           builder.writable
         end

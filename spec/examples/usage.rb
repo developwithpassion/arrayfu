@@ -117,7 +117,9 @@ example 'Add a mutator that does other custom logic as well as addition' do
   class SomeClass
     include ArrayFu
 
-    array :secondary
+    array :secondary do |a|
+      a.readable
+    end
 
     array :names do|a|
       a.readable

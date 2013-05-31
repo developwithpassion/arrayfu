@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module ArrayFu
-  describe VisitorDetailStep do
+  describe GenerateVisitors do
     class OurSet
       attr_accessor :items
 
@@ -26,8 +26,8 @@ module ArrayFu
         let(:target){OurSet.new}
         let(:mutators){[]}
         let(:invocations){[]}
-        let(:sut){VisitorDetailStep}
-        let(:builder){Dsl.new(:items)}
+        let(:sut){GenerateVisitors}
+        let(:builder){ArrayDefinition.new(:items)}
         before (:each) do
           (1..10).each{|item| target.add(Speak.new(invocations))}
           builder.process_using(:run,:hello)
@@ -55,8 +55,8 @@ module ArrayFu
         let(:visitor){TheVisitor.new}
         let(:mutators){[]}
         let(:invocations){[]}
-        let(:sut){VisitorDetailStep}
-        let(:builder){Dsl.new(:items)}
+        let(:sut){GenerateVisitors}
+        let(:builder){ArrayDefinition.new(:items)}
 
         before (:each) do
           (1..10).each{|item| target.add(item)}

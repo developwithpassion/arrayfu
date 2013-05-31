@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 module ArrayFu
-  describe Dsl do
+  describe ArrayDefinition do
     context "using the dsl" do
       it "should be able to initialize all arrays specified on the instance and provide a method to expose addition" do
         class Item
           include ArrayFu
 
           array :kids do|a|
+            a.readable
             a.mutator :register_child 
           end
 
@@ -27,6 +28,7 @@ module ArrayFu
           attr_accessor :added,:item_added
 
           array :kids do|a|
+            a.readable
             a.mutator :register_child do|the_item|
               @item_added = the_item
               @added +=1
@@ -125,6 +127,7 @@ module ArrayFu
             include ArrayFu
 
             array :kids do|a|
+              a.readable
               a.mutator :register_child
             end
 
@@ -187,6 +190,7 @@ module ArrayFu
               include ArrayFu
 
               array :items do|a|
+                a.readable
                 a.mutator :add_item,:add_this,:add_that
                 a.new_item_must BeGreaterThanZero.new, RaiseCriteriaFailure.new
               end
@@ -222,6 +226,7 @@ module ArrayFu
               include ArrayFu
 
               array :items do|a|
+                a.readable
                 a.mutator :add_item,:add_this,:add_that
                 a.new_item_must BeGreaterThanZero.new, DisplayCriteriaFailure.instance
               end

@@ -1,5 +1,5 @@
 module ArrayFu
-  class VisitorDetail
+  class VisitorDefinition
     attr_accessor :name
     attr_accessor :visitor
 

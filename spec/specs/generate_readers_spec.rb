@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 module ArrayFu
-  describe ReadableStep do
+  describe GenerateReaders do
     context "when run" do
       let(:target){Sample.new}
       let(:mutators){[]}
-      let(:sut){ReadableStep}
-      let(:builder){Dsl.new(:numbers)}
+      let(:sut){GenerateReaders}
+      let(:builder){ArrayDefinition.new(:numbers)}
 
       context "using a dsl fragment that contains no block usage" do
         before (:each) do

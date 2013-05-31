@@ -1,5 +1,5 @@
 module ArrayFu
-  class Dsl
+  class ArrayDefinition
     include Initializer
 
     attr_accessor :mutators
@@ -17,7 +17,7 @@ module ArrayFu
 
     def mutator(*names, &block)
       names.each do |mutator_name| 
-        self.mutators.push(MutatorDetail.new(mutator_name, block))
+        self.mutators.push(MutatorDefinition.new(mutator_name, block))
       end
     end
 
@@ -27,7 +27,7 @@ module ArrayFu
     alias :new_item_must :new_item_meets_constraint
 
     def process_using(name,visitor)
-      self.visitors.push(VisitorDetail.new(name, visitor))
+      self.visitors.push(VisitorDefinition.new(name, visitor))
     end
 
     def read_and_write
@@ -41,6 +41,14 @@ module ArrayFu
 
     def readable
       @readable = true
+    end
+
+    def writable?
+      @writable ||= false
+    end
+
+    def readable?
+      @readable ||= false
     end
 
     def configure_using(*configurators)

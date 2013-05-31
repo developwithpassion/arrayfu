@@ -1,5 +1,5 @@
 module ArrayFu
-  class MutatorDetail
+  class MutatorDefinition
     attr_reader :name
     attr_reader :block
 

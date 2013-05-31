@@ -1,5 +1,5 @@
 module ArrayFu
-  module VisitorDetailStep
+  module GenerateVisitors
     extend self
 
     def create_using(builder)

@@ -1,10 +1,10 @@
 module ArrayFu
-  module ReadableStep
+  module GenerateReaders
     extend self
 
     def create_using(builder)
       Module.new do
-        if (builder.readable)
+        if builder.readable?
           define_method(builder.name) do
             return instance_variable_get(builder.variable_name)
           end

@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 module ArrayFu
-  describe MutatorStep do
+  describe GenerateMutators do
     context "when run" do
       let(:numbers){[]}
       let(:target){Sample.new(numbers)}
       let(:mutators){[]}
-      let(:sut){MutatorStep}
-      let(:builder){Dsl.new(:numbers)}
+      let(:sut){GenerateMutators}
+      let(:builder){ArrayDefinition.new(:numbers)}
 
       context "using a dsl fragment that contains no block usage" do
         before (:each) do

@@ -1,6 +1,7 @@
 module ArrayFu
   class AddCriterion
-    attr_accessor :criteria,:failure_strategy
+    attr_accessor :criteria
+    attr_accessor :failure_strategy
 
     def initialize(criteria,failure_strategy)
       @criteria = criteria
@@ -8,8 +9,8 @@ module ArrayFu
     end
 
     def apply_to(value)
-      result = @criteria.is_satisfied_by(value)
-      @failure_strategy.run(@criteria.name,value) unless result
+      result = criteria.is_satisfied_by(value)
+      failure_strategy.run(criteria.name,value) unless result
       return result
     end
   end

@@ -1,5 +1,5 @@
 module ArrayFu
-  module MutatorStep
+  module GenerateMutators
     extend self
 
     def create_using(builder)

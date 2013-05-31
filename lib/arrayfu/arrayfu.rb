@@ -18,9 +18,10 @@ module ArrayFu
     end
 
     def array(name, &block)
-      dsl = ArrayFu::Dsl.new(name)
-      yield dsl if block_given?
-      arrays << dsl
+      definition = ArrayDefinition.new(name)
+      yield definition if block_given?
+      arrays << definition
+      definition
     end
   end
 end

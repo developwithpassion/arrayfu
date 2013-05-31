@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 module ArrayFu
-  describe Dsl do
+  describe ArrayDefinition do
     context "when a criteria is specified" do
       let(:fail_option){fake}
       let(:real_criteria){fake}
       let(:criteria){fake}
-      let(:sut){Dsl.new(:name)}
+      let(:sut){ArrayDefinition.new(:name)}
       before (:each) do
         AddCriterion.stub(:new).with(real_criteria,fail_option).and_return(criteria)
       end
@@ -21,9 +21,9 @@ module ArrayFu
       context "and a singular mutator is specified" do
         let(:mutator){fake}
         let(:name){"sdfsdf"}
-        let(:sut){Dsl.new("sdf")}
+        let(:sut){ArrayDefinition.new("sdf")}
         before (:each) do
-          MutatorDetail.stub(:new).with(name,nil).and_return(mutator)
+          MutatorDefinition.stub(:new).with(name,nil).and_return(mutator)
         end
         before (:each) do
           sut.mutator(name)
@@ -34,10 +34,10 @@ module ArrayFu
       end
       context "and a set of mutators are specified" do
         let(:mutator){fake}
-        let(:sut){Dsl.new("sdf")}
+        let(:sut){ArrayDefinition.new("sdf")}
         before (:each) do
-          MutatorDetail.stub(:new).with(:sdf,nil).and_return(mutator)
-          MutatorDetail.stub(:new).with(:other,nil).and_return(mutator)
+          MutatorDefinition.stub(:new).with(:sdf,nil).and_return(mutator)
+          MutatorDefinition.stub(:new).with(:other,nil).and_return(mutator)
         end
         before (:each) do
           sut.mutator(:sdf,:other)
@@ -52,9 +52,9 @@ module ArrayFu
       let(:visitor){fake}
       let(:the_visitor){fake}
       let(:name){"sdfsdf"}
-      let(:sut){Dsl.new("sdf")}
+      let(:sut){ArrayDefinition.new("sdf")}
       before (:each) do
-        VisitorDetail.stub(:new).with(name,the_visitor).and_return(visitor)
+        VisitorDefinition.stub(:new).with(name,the_visitor).and_return(visitor)
       end
       before (:each) do
         sut.process_using(name,the_visitor)
@@ -68,7 +68,7 @@ module ArrayFu
       context "and they are explicit configurators" do
         let(:configurator1){fake}
         let(:configurator2){fake}
-        subject{Dsl.new('name')}
+        subject{ArrayDefinition.new('name')}
 
         before (:each) do
           def configurator1.respond_to?(name) true end
@@ -79,7 +79,7 @@ module ArrayFu
           subject.configure_using configurator1,configurator2
         end
 
-        it "should invoke the configurator with the dsl" do
+        it "should invoke the configurator with the definition" do
           configurator1.should have_received(:configure,subject)
           configurator2.should have_received(:configure,subject)
         end
@@ -88,7 +88,7 @@ module ArrayFu
       context "and they are a set of blocks" do
         let(:configurator1){fake}
         let(:configurator2){fake}
-        subject{Dsl.new('name')}
+        subject{ArrayDefinition.new('name')}
         before (:each) do
           @first_ran = false
           @second_ran = false
@@ -98,7 +98,7 @@ module ArrayFu
           subject.configure_using lambda{|item| item.should == subject;@first_ran = true},lambda{|item| item.should == subject;@second_ran = true}
         end
 
-        it "should invoke each block with the dsl" do
+        it "should invoke each block with the definition" do
           @first_ran.should be_true
           @second_ran.should be_true
         end
@@ -106,7 +106,7 @@ module ArrayFu
 
       context "and they are a mixture of blocks and explicit configurators" do
         let(:configurator1){fake}
-        subject{Dsl.new('name')}
+        subject{ArrayDefinition.new('name')}
         before (:each) do
           @first_ran = false
           def configurator1.respond_to?(name) true end

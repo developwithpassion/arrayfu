@@ -1,11 +1,11 @@
 module ArrayFu
-  class ModuleRegistry
+  module ModuleRegistry
     def self.all_modules
       return [
-        MutatorStep,
-        VisitorDetailStep,
-        WriteableStep,
-        ReadableStep
+        GenerateMutators,
+        GenerateVisitors,
+        GenerateWriters,
+        GenerateReaders
       ]
     end
 
