@@ -2,19 +2,19 @@ require 'spec_helper'
 
 module ArrayFu
   describe ArrayDefinition do
-    context "when a criteria is specified" do
+    context "when a constraint is specified" do
       let(:fail_option){fake}
-      let(:real_criteria){fake}
-      let(:criteria){fake}
+      let(:real_constraint){fake}
+      let(:constraint){fake}
       let(:sut){ArrayDefinition.new(:name)}
       before (:each) do
-        AddCriterion.stub(:new).with(real_criteria,fail_option).and_return(criteria)
+        ItemConstraint.stub(:new).with(real_constraint,fail_option).and_return(constraint)
       end
       before (:each) do
-        sut.new_item_must(real_criteria,fail_option)
+        sut.new_item_must(real_constraint,fail_option)
       end
       it "should be added to the list of add specifications for the array" do
-        sut.criteria[0].should == criteria
+        sut.constraints[0].should == constraint
       end
     end
     context "when specifying mutators" do
@@ -121,8 +121,6 @@ module ArrayFu
           configurator1.should have_received(:configure,subject)
         end
       end
-      
     end
-
   end
 end

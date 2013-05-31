@@ -1,5 +1,5 @@
 require 'arrayfu/initializer'
-require 'arrayfu/add_criterion'
+require 'arrayfu/item_constraint'
 require 'arrayfu/array_definition'
 require 'arrayfu/module_registry'
 require 'arrayfu/mutator_definition'

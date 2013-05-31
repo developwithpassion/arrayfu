@@ -6,9 +6,6 @@ example "Basic" do
 
     array :names
 
-    def initialize
-      initialize_custom_arrays
-    end
   end
 end
 
@@ -21,8 +18,9 @@ example 'Allow the array to have a read accessor' do
     end
 
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
+
   end
   SomeClass.new.names.should_not be_nil
 end
@@ -36,7 +34,7 @@ example 'Allow the array to have a write accessor' do
     end
 
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
   end
   SomeClass.new.names.should_not be_nil
@@ -50,7 +48,7 @@ example 'Allow the array to have a read and write accessor' do
       a.read_and_write
     end
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
   end
   SomeClass.new.names.should_not be_nil
@@ -63,9 +61,8 @@ example 'Add a mutator method to the class that stores the array' do
     array :names do|a|
       a.mutator :add_item
     end
-
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
   end
 
@@ -81,10 +78,10 @@ example 'Add multiple mutators to the class that stores the array' do
     array :names do|a|
       a.mutator :add_item, :add_it, :push_it
     end
-
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
+
   end
 
   items = SomeClass.new
@@ -102,10 +99,10 @@ example 'Add a mutator that ignores addition' do
       a.mutator :add_item do|item|
       end
     end
-
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
+
   end
 
   items = SomeClass.new
@@ -130,7 +127,7 @@ example 'Add a mutator that does other custom logic as well as addition' do
     end
 
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
   end
 
@@ -170,7 +167,7 @@ example 'Add a singular constraint and failure condition to each of the mutators
     end
 
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
   end
 
@@ -218,12 +215,12 @@ example 'Add multiple constraints and a failure condition to each of the mutator
 
     array :names do|a|
       a.mutator :add_item,:add_it
-      a.new_item_meets_constraint NotBeJP
-      a.new_item_meets_constraint NotBeNil, CriteriaViolation
+      a.addition_constraint NotBeJP
+      a.addition_constraint NotBeNil, CriteriaViolation
     end
 
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
   end
 
@@ -254,10 +251,10 @@ example 'Add an explicit processing visitor to the array' do
       a.mutator :add_item
       a.process_using :display_all,DisplayItem
     end
-
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
+
   end
 
   items = SomeClass.new
@@ -279,12 +276,9 @@ example 'Add an method based processing visitor to the array based on a method t
 
     array :names do|a|
       a.mutator :add_item
-      a.process_using :display_all,:process #the second symbol is the name of a method on an element in the array
+      a.process_using :display_all, :process #the second symbol is the name of a method on an element in the array
     end
 
-    def initialize
-      initialize_custom_arrays
-    end
 
     #the process method of the Item class invokes this method (a little bit roundabout, but it hopefully demonstrates the capability
     def self.increment
@@ -292,6 +286,9 @@ example 'Add an method based processing visitor to the array based on a method t
     end
     def self.number_of_items_visited
       @@items_visited
+    end
+    def initialize
+      initialize_arrayfu
     end
   end
 
@@ -317,7 +314,7 @@ example 'Augment configuration using configuration block' do
     end
 
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
   end
 
@@ -327,8 +324,11 @@ example 'Augment configuration using configuration block' do
   items.names.count.should == 2
 end
 
-example 'Augment configuration using configuration instance' do
-  class ArrayConfigs
+example 'Augment configuration using configuration instance (anything that responds to configure with the array definition as the argument)' do
+
+  module ArrayConfiguration
+    extend self
+
     def configure(item)
       item.mutator :once_more
     end
@@ -339,12 +339,43 @@ example 'Augment configuration using configuration instance' do
 
     array :names do|a|
       a.mutator :add_item
-      a.configure_using ArrayConfigs.new
+      a.configure_using ArrayConfiguration
     end
 
     def initialize
-      initialize_custom_arrays
+      initialize_arrayfu
     end
+  end
+
+  items = SomeClass.new
+  items.add_item("Yo")
+  items.once_more("Yo")
+  items.names.count.should == 2
+end
+
+example 'Augment configuration using configuration block' do
+
+  module ArrayConfiguration
+    extend self
+
+    def configuration_block
+      Proc.new do|array|
+        array.mutator :once_more
+      end
+    end
+  end
+
+  class SomeClass
+    include ArrayFu
+
+    array :names do|a|
+      a.mutator :add_item
+      a.configure_using ArrayConfiguration.configuration_block
+    end
+    def initialize
+      initialize_arrayfu
+    end
+
   end
 
   items = SomeClass.new

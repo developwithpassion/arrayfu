@@ -2,16 +2,16 @@ module ArrayFu
   class ArrayDefinition
     include Initializer
 
-    attr_accessor :mutators
-    attr_accessor :visitors 
-    attr_accessor :criteria
     attr_accessor :name
     attr_accessor :writable
     attr_accessor :readable
+    attr_accessor :mutators
+    attr_accessor :visitors 
+    attr_accessor :constraints
 
     def initialize(name)
       @name = name
-      initialize_arrays :mutators, :visitors, :criteria
+      initialize_arrays :mutators, :visitors, :constraints
       initialize_false :writable, :readable
     end
 
@@ -27,10 +27,11 @@ module ArrayFu
       def run(description, value)
       end
     end
-    def new_item_meets_constraint(criteria, fail_option = NoFailure)
-      self.criteria.push(AddCriterion.new(criteria, fail_option))
+
+    def addition_constraint(constraint, fail_option = NoFailure)
+      self.constraints.push(ItemConstraint.new(constraint, fail_option))
     end
-    alias :new_item_must :new_item_meets_constraint
+    alias :new_item_must :addition_constraint
 
     def process_using(name,visitor)
       self.visitors.push(VisitorDefinition.new(name, visitor))

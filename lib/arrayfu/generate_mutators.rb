@@ -9,7 +9,7 @@ module ArrayFu
             array_var = instance_variable_get(builder.variable_name)
             continue_add = true
 
-            builder.criteria.each do |criteria| 
+            builder.constraints.each do |criteria| 
               continue_add &= criteria.apply_to(value)
             end
 
@@ -23,6 +23,6 @@ module ArrayFu
           end
         end
       end
-      end
     end
   end
+end

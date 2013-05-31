@@ -10,6 +10,6 @@ module ArrayFu
           end
         end
       end
-      end
     end
   end
+end

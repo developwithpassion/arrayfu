@@ -13,7 +13,7 @@ module ArrayFu
           end
 
           def initialize
-            initialize_custom_arrays
+            initialize_arrayfu
           end
         end
 
@@ -38,7 +38,7 @@ module ArrayFu
 
           def initialize
             @added = 0
-            initialize_custom_arrays
+            initialize_arrayfu
           end
         end
 
@@ -74,7 +74,7 @@ module ArrayFu
 
           def initialize
             @added = 0
-            initialize_custom_arrays
+            initialize_arrayfu
           end
         end
 
@@ -98,7 +98,7 @@ module ArrayFu
 
           def initialize
             @added = 0
-            initialize_custom_arrays
+            initialize_arrayfu
           end
         end
 
@@ -132,7 +132,7 @@ module ArrayFu
             end
 
             def initialize
-              initialize_custom_arrays
+              initialize_arrayfu
             end
           end
 
@@ -158,7 +158,7 @@ module ArrayFu
 
             def initialize
               @added = 0
-              initialize_custom_arrays
+              initialize_arrayfu
             end
           end
 
@@ -198,7 +198,7 @@ module ArrayFu
               end
 
               def initialize
-                initialize_custom_arrays
+                initialize_arrayfu
               end
             end
             let(:target){OneClass.new}
@@ -234,7 +234,7 @@ module ArrayFu
               end
 
               def initialize
-                initialize_custom_arrays
+                initialize_arrayfu
               end
             end
             let(:target){AnotherClass.new}

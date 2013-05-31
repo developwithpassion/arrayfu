@@ -5,7 +5,7 @@ module ArrayFu
     base.extend ClassMethods 
   end
 
-  def initialize_custom_arrays
+  def initialize_arrayfu
     self.class.arrays.each do |array|
       initialize_arrays(array.name)
       ArrayFu::ModuleRegistry.configure(self, array)      
@@ -21,7 +21,6 @@ module ArrayFu
       definition = ArrayDefinition.new(name)
       yield definition if block_given?
       arrays << definition
-      definition
     end
   end
 end
