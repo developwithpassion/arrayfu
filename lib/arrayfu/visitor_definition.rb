@@ -7,5 +7,6 @@ module ArrayFu
       @name = name
       @visitor = visitor
     end
+
   end
 end

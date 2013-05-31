@@ -4,12 +4,12 @@ module ArrayFu
 
     def create_using(builder)
       Module.new do
-        builder.mutators.each do|mutator|
+        builder.each_mutator do |mutator|
           define_method(mutator.name) do|value|
             array_var = instance_variable_get(builder.variable_name)
             continue_add = true
 
-            builder.constraints.each do |criteria| 
+            builder.each_constraint do |criteria| 
               continue_add &= criteria.apply_to(value)
             end
 

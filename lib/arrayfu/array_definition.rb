@@ -28,6 +28,18 @@ module ArrayFu
       end
     end
 
+    def each_mutator(&block)
+      mutators.each &block 
+    end
+
+    def each_constraint(&block)
+      constraints.each &block
+    end
+
+    def each_visitor(&block)
+      visitors.each &block
+    end
+
     def addition_constraint(constraint, fail_option = NoFailure)
       self.constraints.push(ItemConstraint.new(constraint, fail_option))
     end
