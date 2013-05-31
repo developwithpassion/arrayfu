@@ -15,6 +15,34 @@ module ArrayFu
       initialize_false :writable, :readable
     end
 
+    def read_and_write
+      writable
+      readable
+    end
+
+    def writable
+      @writable = true
+    end
+
+    def readable
+      @readable = true
+    end
+
+    def writable?
+      @writable ||= false
+    end
+
+    def readable?
+      @readable ||= false
+    end
+
+    def configure_using(*configurators)
+      configurators.each do|configurator|
+        method = configurator.respond_to?(:configure) ? :configure : 'call'.to_sym
+        configurator.send(method, self)
+      end
+    end
+
     def mutator(*names, &block)
       names.each do |mutator_name| 
         self.mutators.push(MutatorDefinition.new(mutator_name, block))
@@ -47,34 +75,6 @@ module ArrayFu
 
     def process_using(name,visitor)
       self.visitors.push(VisitorDefinition.new(name, visitor))
-    end
-
-    def read_and_write
-      writable
-      readable
-    end
-
-    def writable
-      @writable = true
-    end
-
-    def readable
-      @readable = true
-    end
-
-    def writable?
-      @writable ||= false
-    end
-
-    def readable?
-      @readable ||= false
-    end
-
-    def configure_using(*configurators)
-      configurators.each do|configurator|
-        method = configurator.respond_to?(:configure) ? :configure : 'call'.to_sym
-        configurator.send(method, self)
-      end
     end
 
     def variable_name
