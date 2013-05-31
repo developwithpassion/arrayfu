@@ -11,7 +11,7 @@ module ArrayFu
 
       context "and the value does not match the criteria" do
         before (:each) do
-          criteria.stub(:is_satisfied_by).with(value).and_return(false)
+          criteria.stub(:matches?).with(value).and_return(false)
           criteria.stub(:name).and_return(name)
         end
         before (:each) do
@@ -24,7 +24,7 @@ module ArrayFu
 
       context "and the value matches the criteria" do
         before (:each) do
-          criteria.stub(:is_satisfied_by).with(value).and_return(true)
+          criteria.stub(:matches?).with(value).and_return(true)
           criteria.stub(:name).and_return(name)
         end
         before (:each) do

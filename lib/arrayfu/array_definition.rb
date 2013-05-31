@@ -21,7 +21,13 @@ module ArrayFu
       end
     end
 
-    def new_item_meets_constraint(criteria,fail_option)
+    module NoFailure
+      extend self
+
+      def run(description, value)
+      end
+    end
+    def new_item_meets_constraint(criteria, fail_option = NoFailure)
       self.criteria.push(AddCriterion.new(criteria, fail_option))
     end
     alias :new_item_must :new_item_meets_constraint

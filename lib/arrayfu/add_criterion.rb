@@ -9,7 +9,7 @@ module ArrayFu
     end
 
     def apply_to(value)
-      result = criteria.is_satisfied_by(value)
+      result = criteria.matches?(value)
       failure_strategy.run(criteria.name,value) unless result
       return result
     end

@@ -79,7 +79,7 @@ example 'Add multiple mutators to the class that stores the array' do
     include ArrayFu
 
     array :names do|a|
-      a.mutator :add_item,:add_it,:push_it
+      a.mutator :add_item, :add_it, :push_it
     end
 
     def initialize
@@ -141,17 +141,21 @@ example 'Add a mutator that does other custom logic as well as addition' do
 end
 
 example 'Add a singular constraint and failure condition to each of the mutators' do
-  class NotBeJP
-    include Singleton
-    def is_satisfied_by(item)
+  module NotBeJP
+    extend self
+
+    def matches?(item)
       return item != "JP"
     end
+
     def name
       return "The value should not be JP"
     end
   end
-  class CriteriaViolation
-    include Singleton
+
+  module CriteriaViolation
+    extend self
+
     def run(description,value)
 
     end
@@ -162,7 +166,7 @@ example 'Add a singular constraint and failure condition to each of the mutators
 
     array :names do|a|
       a.mutator :add_item,:add_it
-      a.new_item_must NotBeJP.instance, CriteriaViolation.instance
+      a.new_item_must NotBeJP, CriteriaViolation
     end
 
     def initialize
@@ -177,26 +181,33 @@ example 'Add a singular constraint and failure condition to each of the mutators
 end
 
 example 'Add multiple constraints and a failure condition to each of the mutators' do
-  class NotBeJP
-    include Singleton
-    def is_satisfied_by(item)
+  module NotBeJP
+    extend self
+
+    def matches?(item)
       return item != "JP"
     end
+
     def name
       return "The value should not be JP"
     end
   end
-  class NotBeNil
-    include Singleton
-    def is_satisfied_by(item)
+
+  module NotBeNil
+    extend self
+
+    def matches?(item)
       return item != nil
     end
+
     def name
       return "The value should not be nil"
     end
   end
-  class CriteriaViolation
-    include Singleton
+
+  module CriteriaViolation
+    extend self
+
     def run(description,value)
 
     end
@@ -207,8 +218,8 @@ example 'Add multiple constraints and a failure condition to each of the mutator
 
     array :names do|a|
       a.mutator :add_item,:add_it
-      a.new_item_must NotBeJP.instance,CriteriaViolation.instance
-      a.new_item_must NotBeNil.instance,CriteriaViolation.instance
+      a.new_item_meets_constraint NotBeJP
+      a.new_item_meets_constraint NotBeNil, CriteriaViolation
     end
 
     def initialize

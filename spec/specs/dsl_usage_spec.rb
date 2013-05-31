@@ -171,17 +171,19 @@ module ArrayFu
 
 
       context "when criterias have been specified on the array" do
-        class BeGreaterThanZero
+        module BeGreaterThanZero
+          extend self
           def name
             return "Be greater than 0"
           end
-          def is_satisfied_by(item)
+          def matches?(item)
             return item > 0
           end
         end
         context "and the criteria is not met" do
           context "and the failure strategy is set to raise an error" do
-            class RaiseCriteriaFailure
+            module RaiseCriteriaFailure
+              extend self
               def run(name,value)
                 raise "The value #{value} does not meet the criteria #{name}"
               end
@@ -192,7 +194,7 @@ module ArrayFu
               array :items do|a|
                 a.readable
                 a.mutator :add_item,:add_this,:add_that
-                a.new_item_must BeGreaterThanZero.new, RaiseCriteriaFailure.new
+                a.new_item_must BeGreaterThanZero, RaiseCriteriaFailure
               end
 
               def initialize
@@ -228,7 +230,7 @@ module ArrayFu
               array :items do|a|
                 a.readable
                 a.mutator :add_item,:add_this,:add_that
-                a.new_item_must BeGreaterThanZero.new, DisplayCriteriaFailure.instance
+                a.new_item_must BeGreaterThanZero, DisplayCriteriaFailure.instance
               end
 
               def initialize
