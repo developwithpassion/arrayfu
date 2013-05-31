@@ -9,14 +9,14 @@ module ArrayFu
             array_var = instance_variable_get(builder.variable_name)
             continue_add = true
 
-            builder.each_constraint do |criteria| 
-              continue_add &= criteria.apply_to(value)
+            builder.each_constraint do |constraint| 
+              continue_add &= constraint.apply_to(value)
             end
 
             return unless continue_add
 
-            unless mutator.block.nil?
-              self.instance_exec value, &mutator.block
+            if mutator.block
+              mutator.run(self, value)
             else
               array_var.push(value)
             end

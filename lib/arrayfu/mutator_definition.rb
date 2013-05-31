@@ -7,5 +7,9 @@ module ArrayFu
       @name = name
       @block = block
     end
+
+    def run(target, value)
+      target.instance_exec value, &block
+    end
   end
 end
