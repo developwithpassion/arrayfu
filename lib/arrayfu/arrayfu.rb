@@ -6,21 +6,26 @@ module ArrayFu
   end
 
   def initialize_arrayfu
-    self.class.arrays.each do |array|
-      initialize_arrays(array.name)
-      ArrayFu::ModuleRegistry.configure(self, array)      
+    self.class.each_array_definition do |array_definition|
+      initialize_arrays(array_definition.name)
+      ArrayFu::ModuleRegistry.configure(self, array_definition)      
     end
   end
 
   module ClassMethods
-    def arrays
-      @arrays ||= []
+    def array_definitions
+      @array_definitions ||= []
+    end
+
+    def each_array_definition(&block)
+      array_definitions.each &block
     end
 
     def array(name, &block)
-      definition = ArrayDefinition.new(name)
-      yield definition if block_given?
-      arrays << definition
+      array_definition = ArrayDefinition.new(name)
+      yield array_definition if block_given?
+      array_definitions << array_definition
+      array_definition
     end
   end
 end
