@@ -12,6 +12,10 @@ module ArrayFu
     end
   end
 
+  def array(name, &block)
+    self.class.array(name, &block)
+  end
+
   module ClassMethods
     def array_definitions
       @array_definitions ||= {}

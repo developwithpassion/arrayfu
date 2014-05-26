@@ -318,3 +318,36 @@ example 'Augment configuration using configuration block' do
   items.once_more("Yo")
   items.names.count.should == 2
 end
+
+example 'Augment configuration of an existing array' do
+
+  module ArrayConfiguration
+    extend self
+
+    def configuration_block
+      Proc.new do|array|
+        array.mutator :once_more
+      end
+    end
+  end
+
+  class SomeClass
+    include ArrayFu
+
+    array :names do
+      mutator :add_item
+    end
+
+    def initialize
+      super
+      array :names do
+        configure_using ArrayConfiguration.configuration_block
+      end
+    end
+  end
+
+  items = SomeClass.new
+  items.add_item("Yo")
+  items.once_more("Yo")
+  items.names.count.should == 2
+end
