@@ -80,8 +80,8 @@ module ArrayFu
         end
 
         it "should invoke the configurator with the definition" do
-          configurator1.should have_received(:configure,subject)
-          configurator2.should have_received(:configure,subject)
+          configurator1.should have_received_message(:configure, subject)
+          configurator2.should have_received_message(:configure, subject)
         end
       end
 
@@ -118,7 +118,7 @@ module ArrayFu
 
         it "should invoke blocks and configurators" do
           @first_ran.should be_true
-          configurator1.should have_received(:configure,subject)
+          configurator1.should have_received_message(:configure,subject)
         end
       end
     end

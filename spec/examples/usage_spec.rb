@@ -5,7 +5,6 @@ example "Basic" do
     include ArrayFu
 
     array :names
-
   end
 end
 
@@ -13,14 +12,7 @@ example 'Allow the array to have a read accessor' do
   class SomeClass
     include ArrayFu
 
-    array :names do
-      readable
-    end
-
-    def initialize
-      initialize_arrayfu
-    end
-
+    array(:names) { readable }
   end
   SomeClass.new.names.should_not be_nil
 end
@@ -29,13 +21,7 @@ example 'Allow the array to have a write accessor' do
   class SomeClass
     include ArrayFu
 
-    array :names do
-      writable
-    end
-
-    def initialize
-      initialize_arrayfu
-    end
+    array(:names) { writable }
   end
   SomeClass.new.names.should_not be_nil
 end
@@ -44,13 +30,7 @@ example 'Allow the array to have a read and write accessor' do
   class SomeClass
     include ArrayFu
 
-    array :names do
-      read_and_write
-    end
-
-    def initialize
-      initialize_arrayfu
-    end
+    array(:names) { read_and_write }
   end
   SomeClass.new.names.should_not be_nil
 end
@@ -59,12 +39,7 @@ example 'Add a mutator method to the class that stores the array' do
   class SomeClass
     include ArrayFu
 
-    array :names do
-      mutator :add_item
-    end
-    def initialize
-      initialize_arrayfu
-    end
+    array(:names) { mutator :add_item }
   end
 
   items = SomeClass.new
@@ -79,10 +54,6 @@ example 'Add multiple mutators to the class that stores the array' do
     array :names do
       mutator :add_item, :add_it, :push_it
     end
-    def initialize
-      initialize_arrayfu
-    end
-
   end
 
   items = SomeClass.new
@@ -100,10 +71,6 @@ example 'Add a mutator that ignores addition' do
       mutator :add_item do|item|
       end
     end
-    def initialize
-      initialize_arrayfu
-    end
-
   end
 
   items = SomeClass.new
@@ -115,9 +82,7 @@ example 'Add a mutator that does other custom logic as well as addition' do
   class SomeClass
     include ArrayFu
 
-    array :secondary do 
-      readable
-    end
+    array(:secondary) { readable }
 
     array :names do
       readable
@@ -125,10 +90,6 @@ example 'Add a mutator that does other custom logic as well as addition' do
         @secondary.push item
         @names.push item
       end
-    end
-
-    def initialize
-      initialize_arrayfu
     end
   end
 
@@ -165,10 +126,6 @@ example 'Add a singular constraint and failure condition to each of the mutators
     array :names do
       mutator :add_item,:add_it
       new_item_must NotBeJP, CriteriaViolation
-    end
-
-    def initialize
-      initialize_arrayfu
     end
   end
 
@@ -219,10 +176,6 @@ example 'Add multiple constraints and a failure condition to each of the mutator
       addition_constraint NotBeJP
       addition_constraint NotBeNil, CriteriaViolation
     end
-
-    def initialize
-      initialize_arrayfu
-    end
   end
 
   items = SomeClass.new
@@ -252,10 +205,6 @@ example 'Add an explicit processing visitor to the array' do
       mutator :add_item
       process_using :display_all,DisplayItem
     end
-    def initialize
-      initialize_arrayfu
-    end
-
   end
 
   items = SomeClass.new
@@ -288,9 +237,6 @@ example 'Add an method based processing visitor to the array based on a method t
     def self.number_of_items_visited
       @@items_visited
     end
-    def initialize
-      initialize_arrayfu
-    end
   end
 
   items = SomeClass.new
@@ -312,10 +258,6 @@ example 'Augment configuration using configuration block' do
     array :names do
       mutator :add_item
       configure_using ArrayConfigs.add_another_mutator
-    end
-
-    def initialize
-      initialize_arrayfu
     end
   end
 
@@ -341,10 +283,6 @@ example 'Augment configuration using configuration instance (anything that respo
     array :names do
       mutator :add_item
       configure_using ArrayConfiguration
-    end
-
-    def initialize
-      initialize_arrayfu
     end
   end
 
@@ -373,10 +311,6 @@ example 'Augment configuration using configuration block' do
       mutator :add_item
       configure_using ArrayConfiguration.configuration_block
     end
-    def initialize
-      initialize_arrayfu
-    end
-
   end
 
   items = SomeClass.new

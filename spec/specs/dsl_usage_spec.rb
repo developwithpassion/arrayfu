@@ -11,10 +11,6 @@ module ArrayFu
             readable
             mutator :register_child 
           end
-
-          def initialize
-            initialize_arrayfu
-          end
         end
 
         item = Item.new
@@ -37,8 +33,8 @@ module ArrayFu
           end
 
           def initialize
+            super
             @added = 0
-            initialize_arrayfu
           end
         end
 
@@ -73,8 +69,8 @@ module ArrayFu
           end
 
           def initialize
+            super
             @added = 0
-            initialize_arrayfu
           end
         end
 
@@ -97,8 +93,8 @@ module ArrayFu
           end
 
           def initialize
+            super
             @added = 0
-            initialize_arrayfu
           end
         end
 
@@ -130,10 +126,6 @@ module ArrayFu
               readable
               mutator :register_child
             end
-
-            def initialize
-              initialize_arrayfu
-            end
           end
 
           item = Item.new
@@ -157,8 +149,8 @@ module ArrayFu
             end
 
             def initialize
+              super
               @added = 0
-              initialize_arrayfu
             end
           end
 
@@ -196,10 +188,6 @@ module ArrayFu
                 mutator :add_item,:add_this,:add_that
                 new_item_must BeGreaterThanZero, RaiseCriteriaFailure
               end
-
-              def initialize
-                initialize_arrayfu
-              end
             end
             let(:target){OneClass.new}
             before (:each) do
@@ -231,10 +219,6 @@ module ArrayFu
                 readable
                 mutator :add_item,:add_this,:add_that
                 new_item_must BeGreaterThanZero, DisplayCriteriaFailure.instance
-              end
-
-              def initialize
-                initialize_arrayfu
               end
             end
             let(:target){AnotherClass.new}

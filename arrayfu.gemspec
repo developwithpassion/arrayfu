@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.version     = ArrayFu::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Develop With Passion®"]
+  s.license     = 'MIT'
   s.email       = ["open_source@developwithpassion.com"]
   s.homepage    = "http://www.developwithpassion.com"
   s.summary     = %q{Simple DSL For Declaritive Arrays}
@@ -18,8 +19,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # specify any dependencies here; for example:
-  s.add_development_dependency "rake"
-  s.add_development_dependency "guard"
-  s.add_development_dependency "guard-rspec"
-  s.add_development_dependency "fakes-rspec"
+  s.add_development_dependency("rake", "~> 0.9.0")
+  s.add_development_dependency("guard", "~> 2.6.1")
+  s.add_development_dependency("guard-rspec", "~> 4.2.9")
+  s.add_development_dependency("fakes-rspec", "~> 2.0.0")
 end

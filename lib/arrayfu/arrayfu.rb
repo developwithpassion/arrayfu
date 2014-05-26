@@ -5,15 +5,11 @@ module ArrayFu
     base.extend ClassMethods 
   end
 
-  def initialize_arrayfu
+  def initialize
     self.class.each_array_definition do |array_definition|
       initialize_arrays(array_definition.name)
       ArrayFu::ModuleRegistry.configure(self, array_definition)      
     end
-  end
-
-  def array(name, &block)
-    self.class.array(name, &block)
   end
 
   module ClassMethods
@@ -25,12 +21,12 @@ module ArrayFu
       array_definitions.values.each &block
     end
 
+    def array_definition(name)
+      array_definitions[name] ||= ArrayDefinition.new(name)
+    end
+
     def array(name, &block)
-      unless array_definitions.has_key?(name)
-        array_definition = ArrayDefinition.new(name)
-        array_definitions[name] = array_definition
-      end
-      definition = array_definitions[name]
+      definition = array_definition(name)
       definition.instance_eval(&block) if block_given?
       definition
     end
