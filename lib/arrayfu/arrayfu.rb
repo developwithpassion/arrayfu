@@ -5,7 +5,7 @@ module ArrayFu
     base.extend ClassMethods 
   end
 
-  def initialize
+  def initialize(*args)
     self.class.each_array_definition do |array_definition|
       initialize_arrays(array_definition.name)
       ArrayFu::ModuleRegistry.configure(self, array_definition)      
