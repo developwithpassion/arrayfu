@@ -9,7 +9,7 @@ module ArrayFu
         let(:sut){GenerateWriters}
         let(:builder){ArrayDefinition.new(:numbers)}
         before (:each) do
-          builder.writable
+          builder.writeable
         end
         before (:each) do
           target.extend(sut.create_using(builder))

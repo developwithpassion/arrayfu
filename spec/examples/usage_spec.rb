@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 example "Basic" do
-  class SomeClass
+  class Example1
     include ArrayFu
 
     array :names
@@ -9,50 +9,53 @@ example "Basic" do
 end
 
 example 'Allow the array to have a read accessor' do
-  class SomeClass
+  class Example2
     include ArrayFu
 
     array(:names) { readable }
   end
-  SomeClass.new.names.should_not be_nil
+  Example2.new.names.should_not be_nil
 end
 
 example 'Allow the array to have a write accessor' do
-  class SomeClass
+  class Example3
     include ArrayFu
 
-    array(:names) { writable }
+    array(:names) { writeable }
   end
-  instance = SomeClass.new
-  instance.names.should_not be_nil
+  instance = Example3.new
   new_names = []
   instance.names = new_names
-  instance.names.should == new_names
+  instance.instance_eval do
+    @names.should == new_names
+  end
 end
 
 example 'Allow the array to have a read and write accessor' do
-  class SomeClass
+  class Example4
     include ArrayFu
 
     array(:names) { read_and_write }
   end
-  SomeClass.new.names.should_not be_nil
+  Example4.new.names.should_not be_nil
 end
 
 example 'Add a mutator method to the class that stores the array' do
-  class SomeClass
+  class Example5
     include ArrayFu
 
     array(:names) { mutator :add_item }
   end
 
-  instance = SomeClass.new
+  instance = Example5.new
   instance.add_item("JP")
-  instance.names.count.should == 1
+  instance.instance_eval do
+    @names.count.should == 1
+  end
 end
 
 example 'Add multiple mutators to the class that stores the array' do
-  class SomeClass
+  class Example6
     include ArrayFu
 
     array :names do
@@ -60,15 +63,17 @@ example 'Add multiple mutators to the class that stores the array' do
     end
   end
 
-  instance = SomeClass.new
+  instance = Example6.new
   instance.add_item("JP")
   instance.add_it("JP")
   instance.push_it("JP")
-  instance.names.count.should == 3
+  instance.instance_eval do
+    @names.count.should == 3
+  end
 end
 
 example 'Add a mutator that ignores addition' do
-  class SomeClass
+  class Example7
     include ArrayFu
 
     array :names do
@@ -77,13 +82,15 @@ example 'Add a mutator that ignores addition' do
     end
   end
 
-  instance = SomeClass.new
+  instance = Example7.new
   instance.add_item("JP")
-  instance.names.count.should == 0
+  instance.instance_eval do
+    @names.count.should == 0
+  end
 end
 
 example 'Add a mutator that does other custom logic as well as addition' do
-  class SomeClass
+  class Example8
     include ArrayFu
 
     array(:secondary) { readable }
@@ -97,7 +104,7 @@ example 'Add a mutator that does other custom logic as well as addition' do
     end
   end
 
-  instance = SomeClass.new
+  instance = Example8.new
   instance.add_item("JP")
   instance.names.count.should == 1
   instance.secondary.count.should == 1
@@ -124,16 +131,17 @@ example 'Add a singular constraint and failure condition to each of the mutators
     end
   end
 
-  class SomeClass
+  class Example9
     include ArrayFu
 
     array :names do
+      readable
       mutator :add_item,:add_it
       new_item_must NotBeJP, CriteriaViolation
     end
   end
 
-  instance = SomeClass.new
+  instance = Example9.new
   instance.add_item("JP")
   instance.add_it("JP")
   instance.names.count.should == 0
@@ -172,17 +180,18 @@ example 'Add multiple constraints and a failure condition to each of the mutator
     end
   end
 
-  class SomeClass
+  class Example10
     include ArrayFu
 
     array :names do
+      readable
       mutator :add_item,:add_it
       addition_constraint NotBeJP
       addition_constraint NotBeNil, CriteriaViolation
     end
   end
 
-  instance = SomeClass.new
+  instance = Example10.new
   instance.add_item("JP")
   instance.add_it("JP")
   instance.add_item(nil)
@@ -202,7 +211,7 @@ example 'Add an explicit processing visitor to the array' do
     end
   end
 
-  class SomeClass
+  class Example11
     include ArrayFu
 
     array :names do
@@ -211,7 +220,7 @@ example 'Add an explicit processing visitor to the array' do
     end
   end
 
-  instance = SomeClass.new
+  instance = Example11.new
   (1..10).each{|item| instance.add_item(item)}
   instance.display_all
   DisplayItem.item_count.should == 10
@@ -220,11 +229,11 @@ end
 example 'Add an method based processing visitor to the array based on a method that exists on the items in the array' do
   class Item
     def process
-      SomeClass.increment
+      Example12.increment
     end
   end
 
-  class SomeClass
+  class Example12
     @@items_visited = 0
     include ArrayFu
 
@@ -243,10 +252,10 @@ example 'Add an method based processing visitor to the array based on a method t
     end
   end
 
-  instance = SomeClass.new
+  instance = Example12.new
   (1..10).each{|item| instance.add_item(Item.new)}
   instance.display_all
-  SomeClass.number_of_items_visited.should == 10
+  Example12.number_of_items_visited.should == 10
 end
 
 example 'Augment configuration using configuration block' do
@@ -256,18 +265,38 @@ example 'Augment configuration using configuration block' do
     end
   end
 
-  class SomeClass
+  class Example13
     include ArrayFu
 
     array :names do
+      readable
       mutator :add_item
       configure_using ArrayConfigs.add_another_mutator
     end
   end
 
-  instance = SomeClass.new
+  instance = Example13.new
   instance.add_item("Yo")
   instance.another_push("Yo")
+  instance.names.count.should == 2
+end
+
+example 'Augment configuration using inline configuration block' do
+  class Example14
+    include ArrayFu
+
+    array :names do
+      readable
+      mutator :add_item
+      configure_using -> (item) do
+        item.mutator :another_pushes
+      end
+    end
+  end
+
+  instance = Example14.new
+  instance.add_item("Yo")
+  instance.another_pushes("Yo")
   instance.names.count.should == 2
 end
 
@@ -281,16 +310,17 @@ example 'Augment configuration using configuration instance (anything that respo
     end
   end
 
-  class SomeClass
+  class Example15
     include ArrayFu
 
     array :names do
+      readable
       mutator :add_item
       configure_using ArrayConfiguration
     end
   end
 
-  instance = SomeClass.new
+  instance = Example15.new
   instance.add_item("Yo")
   instance.once_more("Yo")
   instance.names.count.should == 2
@@ -308,16 +338,17 @@ example 'Augment configuration using configuration block' do
     end
   end
 
-  class SomeClass
+  class Example16
     include ArrayFu
 
     array :names do
+      readable
       mutator :add_item
       configure_using ArrayConfiguration.configuration_block
     end
   end
 
-  instance = SomeClass.new
+  instance = Example16.new
   instance.add_item("Yo")
   instance.once_more("Yo")
   instance.names.count.should == 2
@@ -325,7 +356,7 @@ end
 
 example 'Augment configuration of an existing array' do
 
-  module ArrayConfiguration
+  module ExampleConfig1
     extend self
 
     def configuration_block
@@ -333,22 +364,23 @@ example 'Augment configuration of an existing array' do
     end
   end
 
-  class SomeClass
+  class Example17
     include ArrayFu
 
     array :names do
+      readable
       mutator :add_item
     end
 
     def initialize
-      super
       array :names do
-        configure_using ArrayConfiguration.configuration_block
+        configure_using ExampleConfig1.configuration_block
       end
+      super
     end
   end
 
-  instance = SomeClass.new
+  instance = Example17.new
   instance.add_item("Yo")
   instance.once_more("Yo")
   instance.names.count.should == 2
@@ -356,7 +388,7 @@ end
 
 example 'Alternate way to augment configuration of an existing array' do
 
-  module ArrayConfiguration
+  module ExampleConfig3
     extend self
 
     def configure(array_definition)
@@ -364,20 +396,21 @@ example 'Alternate way to augment configuration of an existing array' do
     end
   end
 
-  class SomeClass
+  class Example18
     include ArrayFu
 
     array :names do
+      readable
       mutator :add_item
     end
 
     def initialize(config)
-      super
       config.configure(array(:names))
+      super
     end
   end
 
-  instance = SomeClass.new(ArrayConfiguration)
+  instance = Example18.new(ExampleConfig3)
   instance.add_item("Yo")
   instance.once_more("Yo")
   instance.names.count.should == 2
