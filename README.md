@@ -1,6 +1,8 @@
 #ArrayFu
 
-A simple dsl for declaritive array. Hopefully the examples below show how it can be used!
+A simple dsl for declaritive arrays. Hopefully the examples below show how it can be used!
+
+Documentation can be found [here](http://rubydoc.info/github/developwithpassion/arrayfu)
 
 ##Examples
 
