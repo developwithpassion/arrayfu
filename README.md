@@ -4,6 +4,7 @@ A simple dsl for declaritive arrays. Hopefully the examples below show how it ca
 
 Documentation can be found [here](http://rubydoc.info/github/developwithpassion/arrayfu)
 
+
 ##Examples
 
 ```ruby
