@@ -23,7 +23,11 @@ example 'Allow the array to have a write accessor' do
 
     array(:names) { writable }
   end
-  SomeClass.new.names.should_not be_nil
+  instance = SomeClass.new
+  instance.names.should_not be_nil
+  new_names = []
+  instance.names = new_names
+  instance.names.should == new_names
 end
 
 example 'Allow the array to have a read and write accessor' do
@@ -42,9 +46,9 @@ example 'Add a mutator method to the class that stores the array' do
     array(:names) { mutator :add_item }
   end
 
-  items = SomeClass.new
-  items.add_item("JP")
-  items.names.count.should == 1
+  instance = SomeClass.new
+  instance.add_item("JP")
+  instance.names.count.should == 1
 end
 
 example 'Add multiple mutators to the class that stores the array' do
@@ -56,11 +60,11 @@ example 'Add multiple mutators to the class that stores the array' do
     end
   end
 
-  items = SomeClass.new
-  items.add_item("JP")
-  items.add_it("JP")
-  items.push_it("JP")
-  items.names.count.should == 3
+  instance = SomeClass.new
+  instance.add_item("JP")
+  instance.add_it("JP")
+  instance.push_it("JP")
+  instance.names.count.should == 3
 end
 
 example 'Add a mutator that ignores addition' do
@@ -73,9 +77,9 @@ example 'Add a mutator that ignores addition' do
     end
   end
 
-  items = SomeClass.new
-  items.add_item("JP")
-  items.names.count.should == 0
+  instance = SomeClass.new
+  instance.add_item("JP")
+  instance.names.count.should == 0
 end
 
 example 'Add a mutator that does other custom logic as well as addition' do
@@ -93,10 +97,10 @@ example 'Add a mutator that does other custom logic as well as addition' do
     end
   end
 
-  items = SomeClass.new
-  items.add_item("JP")
-  items.names.count.should == 1
-  items.secondary.count.should == 1
+  instance = SomeClass.new
+  instance.add_item("JP")
+  instance.names.count.should == 1
+  instance.secondary.count.should == 1
 end
 
 example 'Add a singular constraint and failure condition to each of the mutators' do
@@ -129,10 +133,10 @@ example 'Add a singular constraint and failure condition to each of the mutators
     end
   end
 
-  items = SomeClass.new
-  items.add_item("JP")
-  items.add_it("JP")
-  items.names.count.should == 0
+  instance = SomeClass.new
+  instance.add_item("JP")
+  instance.add_it("JP")
+  instance.names.count.should == 0
 end
 
 example 'Add multiple constraints and a failure condition to each of the mutators' do
@@ -178,11 +182,11 @@ example 'Add multiple constraints and a failure condition to each of the mutator
     end
   end
 
-  items = SomeClass.new
-  items.add_item("JP")
-  items.add_it("JP")
-  items.add_item(nil)
-  items.names.count.should == 0
+  instance = SomeClass.new
+  instance.add_item("JP")
+  instance.add_it("JP")
+  instance.add_item(nil)
+  instance.names.count.should == 0
 end
 
 example 'Add an explicit processing visitor to the array' do
@@ -207,9 +211,9 @@ example 'Add an explicit processing visitor to the array' do
     end
   end
 
-  items = SomeClass.new
-  (1..10).each{|item| items.add_item(item)}
-  items.display_all
+  instance = SomeClass.new
+  (1..10).each{|item| instance.add_item(item)}
+  instance.display_all
   DisplayItem.item_count.should == 10
 end
 
@@ -239,9 +243,9 @@ example 'Add an method based processing visitor to the array based on a method t
     end
   end
 
-  items = SomeClass.new
-  (1..10).each{|item| items.add_item(Item.new)}
-  items.display_all
+  instance = SomeClass.new
+  (1..10).each{|item| instance.add_item(Item.new)}
+  instance.display_all
   SomeClass.number_of_items_visited.should == 10
 end
 
@@ -261,10 +265,10 @@ example 'Augment configuration using configuration block' do
     end
   end
 
-  items = SomeClass.new
-  items.add_item("Yo")
-  items.another_push("Yo")
-  items.names.count.should == 2
+  instance = SomeClass.new
+  instance.add_item("Yo")
+  instance.another_push("Yo")
+  instance.names.count.should == 2
 end
 
 example 'Augment configuration using configuration instance (anything that responds to configure with the array definition as the argument)' do
@@ -286,10 +290,10 @@ example 'Augment configuration using configuration instance (anything that respo
     end
   end
 
-  items = SomeClass.new
-  items.add_item("Yo")
-  items.once_more("Yo")
-  items.names.count.should == 2
+  instance = SomeClass.new
+  instance.add_item("Yo")
+  instance.once_more("Yo")
+  instance.names.count.should == 2
 end
 
 example 'Augment configuration using configuration block' do
@@ -313,10 +317,10 @@ example 'Augment configuration using configuration block' do
     end
   end
 
-  items = SomeClass.new
-  items.add_item("Yo")
-  items.once_more("Yo")
-  items.names.count.should == 2
+  instance = SomeClass.new
+  instance.add_item("Yo")
+  instance.once_more("Yo")
+  instance.names.count.should == 2
 end
 
 example 'Augment configuration of an existing array' do
@@ -344,10 +348,10 @@ example 'Augment configuration of an existing array' do
     end
   end
 
-  items = SomeClass.new
-  items.add_item("Yo")
-  items.once_more("Yo")
-  items.names.count.should == 2
+  instance = SomeClass.new
+  instance.add_item("Yo")
+  instance.once_more("Yo")
+  instance.names.count.should == 2
 end
 
 example 'Alternate way to augment configuration of an existing array' do
@@ -373,8 +377,8 @@ example 'Alternate way to augment configuration of an existing array' do
     end
   end
 
-  items = SomeClass.new(ArrayConfiguration)
-  items.add_item("Yo")
-  items.once_more("Yo")
-  items.names.count.should == 2
+  instance = SomeClass.new(ArrayConfiguration)
+  instance.add_item("Yo")
+  instance.once_more("Yo")
+  instance.names.count.should == 2
 end
