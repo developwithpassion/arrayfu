@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   s.add_development_dependency("rake", "~> 0.9.0")
+  s.add_development_dependency("yard", "~> 0.8.7.4")
   s.add_development_dependency("guard", "~> 2.6.1")
   s.add_development_dependency("guard-rspec", "~> 4.2.9")
   s.add_development_dependency("fakes-rspec", "~> 2.0.0")
