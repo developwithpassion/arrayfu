@@ -1,5 +1,9 @@
-require 'spec_helper'
+#ArrayFu
 
+
+##Examples
+
+```ruby
 example "Basic" do
   class SomeClass
     include ArrayFu
@@ -378,3 +382,4 @@ example 'Alternate way to augment configuration of an existing array' do
   items.once_more("Yo")
   items.names.count.should == 2
 end
+```
