@@ -4,7 +4,7 @@ module ArrayFu
 
     def create_using(builder)
       Module.new do
-        if (builder.writable?)
+        if (builder.writeable?)
           define_method("#{builder.name}=") do|value|
             instance_variable_set(builder.variable_name, value)
           end
