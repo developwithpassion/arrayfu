@@ -1,6 +1,6 @@
 #ArrayFu
 
-One of my first ruby projects. It is a simple dsl for declaritive arrays. Hopefully the examples below show how it can be used!
+A simple dsl for declaritive arrays. Hopefully the examples below show how it can be used!
 
 ##Examples
 
