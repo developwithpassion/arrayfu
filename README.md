@@ -1,5 +1,6 @@
 #ArrayFu
 
+One of the first play projects I wrote using ruby to build a simple dsl for declaritive arrays. Hopefully the examples below show how it can be used!
 
 ##Examples
 
