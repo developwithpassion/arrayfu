@@ -2,3 +2,6 @@ language: ruby
 rvm:
 - 2.0.0
 script: bundle exec thor spec
+env:
+  global:
+    secure: XSQpE+cVB7nzGEURDuc158fGuRc98fmpTgVpUJCZ4kTemq0fvD47N65ddOB5rP297ZIscsttGtssFgbCLnFHJDIN1shZrYC0aEsXgujwVQ0fVp3L4DNt1tHsmweuDF1NW98/81k9S4DkNNfGEeU5Q9iFDge1sGdoJV9tCw93nvo=
