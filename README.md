@@ -1,5 +1,9 @@
 #ArrayFu
 
+[![Code Climate](http://img.shields.io/codeclimate/github/developwithpassion/arrayfu.svg)][codeclimate]
+
+[codeclimate]: https://codeclimate.com/github/developwithpassion/arrayfu
+
 A simple dsl for declaritive arrays. Hopefully the examples below show how it can be used!
 
 Documentation can be found [here](http://rubydoc.info/github/developwithpassion/arrayfu)
