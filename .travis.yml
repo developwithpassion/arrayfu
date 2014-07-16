@@ -4,4 +4,5 @@ rvm:
 script: bundle exec thor spec
 env:
   global:
-    secure: XSQpE+cVB7nzGEURDuc158fGuRc98fmpTgVpUJCZ4kTemq0fvD47N65ddOB5rP297ZIscsttGtssFgbCLnFHJDIN1shZrYC0aEsXgujwVQ0fVp3L4DNt1tHsmweuDF1NW98/81k9S4DkNNfGEeU5Q9iFDge1sGdoJV9tCw93nvo=
+  - COVERALLS_SERVICE_NAME: travis-ci
+  - secure: F89HricbS+n5HIsb0qqts2pq00miliTJ+hZsqlV8WitcEzBG3gM8Oz2wrUw4I/0CT23W5+/sPP96n86GemcmxAnd9LRY/BdOp9qoxCVi9IJ6q89xIlT0GeBLQ24+Ikw7QKFdpEKrFvrUSss16Ktbwb6rJwTWM4P+F1wQvE5EFjo=
