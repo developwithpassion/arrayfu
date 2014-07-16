@@ -2,9 +2,11 @@
 
 [![Build Status](http://img.shields.io/travis/developwithpassion/arrayfu.svg)][travis]
 [![Code Climate](http://img.shields.io/codeclimate/github/developwithpassion/arrayfu.svg)][codeclimate]
+[![Coverage Status](http://img.shields.io/coveralls/developwithpassion/arrayfu.svg)][coveralls]
 
 [travis]: https://travis-ci.org/developwithpassion/arrayfu
 [codeclimate]: https://codeclimate.com/github/developwithpassion/arrayfu
+[coveralls]: https://coveralls.io/r/developwithpassion/arrayfu
 
 A simple dsl for declaritive arrays. Hopefully the examples below show how it can be used!
 
