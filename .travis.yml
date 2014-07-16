@@ -1,4 +1,7 @@
 language: ruby
 rvm:
-  - 2.1.2
+- 2.0.0
 script: bundle exec rspec spec/**/*.*
+env:
+  global:
+    secure: C/iW5qTVeqePosJGnG8AXo1lpOPsfk3T96JLXAieB+yBUD5OpwBKpU1K98hMNPeWPrtet8kC9erYuAdLLrqvy7kyqRr7vj3GMtMCVcBqx5bQPXSx8otZaFQaXTZRZNAb8SR5GfbjAy45/quHHge1Zn709XYbDLfpewciG5iNhiU=
