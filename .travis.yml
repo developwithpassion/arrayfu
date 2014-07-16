@@ -4,4 +4,4 @@ rvm:
 script: bundle exec thor spec
 env:
   global:
-    secure: C/iW5qTVeqePosJGnG8AXo1lpOPsfk3T96JLXAieB+yBUD5OpwBKpU1K98hMNPeWPrtet8kC9erYuAdLLrqvy7kyqRr7vj3GMtMCVcBqx5bQPXSx8otZaFQaXTZRZNAb8SR5GfbjAy45/quHHge1Zn709XYbDLfpewciG5iNhiU=
+    secure: vFFIwGRhDys/Pz20PE0QdyYpAL5nfqd8X2McHUl/v6CBjRlU6Yq/6ewZ5rLVIl+s0BJG2nucZRzyLvqYGe5kO1MfpndBDyHg1NstJalKN/dFFJ/ekFg9jqrHDC4Bzmjep9XWeiaUGJb3JVodyDDLlXJ65s3ZH3/NjShyINO5OVg=
