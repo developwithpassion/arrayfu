@@ -1,8 +1,7 @@
 language: ruby
 rvm:
-- 2.0.0
+- 2.1.2
 script: bundle exec thor spec
 env:
   global:
-  - COVERALLS_SERVICE_NAME: travis-ci
   - secure: F89HricbS+n5HIsb0qqts2pq00miliTJ+hZsqlV8WitcEzBG3gM8Oz2wrUw4I/0CT23W5+/sPP96n86GemcmxAnd9LRY/BdOp9qoxCVi9IJ6q89xIlT0GeBLQ24+Ikw7QKFdpEKrFvrUSss16Ktbwb6rJwTWM4P+F1wQvE5EFjo=
